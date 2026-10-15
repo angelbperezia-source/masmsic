@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Angel más Music - Player C-137</title>
+    <link rel="stylesheet" href="css/player.css">
+</head>
+<body>
+
+<div class="app" id="app">
+    <!-- Lluvia de código binario (animada) -->
+    <canvas id="matrix" class="matrix-bg"></canvas>
+
+    <!-- Cabecera -->
+    <header class="player-header">
+        <img class="title-img" src="assets/title.png" alt="Angel más Music">
+        <div class="song-info">
+            <span class="lbl">SONG:</span> <span id="song-title" class="val">—</span>
+            <span class="sep">|</span>
+            <span class="lbl artist-lbl">ARTIST:</span> <span id="artist-name" class="val">—</span>
+        </div>
+    </header>
+
+    <!-- Portal animado + visualizador circular -->
+    <section class="portal-section">
+        <div class="portal-wrap" id="portal-wrap" role="button" tabindex="0" aria-label="Reproducir" aria-pressed="false" title="Click para reproducir / pausar">
+            <canvas id="viz" class="viz"></canvas>
+            <div class="ring ring-outer"></div>
+            <div class="ring ring-inner"></div>
+            <div class="portal-disc">
+                <!-- Animación por frames (assets/portal/frame_000.webp ...) -->
+                <canvas id="portal-canvas" class="portal-canvas" aria-label="Portal C-137"></canvas>
+                <div class="portal-shine"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Barra de progreso -->
+    <section class="progress-section">
+        <div class="progress-bar-container" id="progress-container" role="slider" tabindex="0" aria-label="Posición de reproducción" aria-controls="audio-element" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="0:00 de 0:00" aria-disabled="true">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+            <img class="progress-ufo" id="progress-ufo" src="assets/progress-ufo.png" alt="" draggable="false">
+        </div>
+        <div class="time-row">
+            <span id="time-current">0:00</span>
+            <span id="time-total">0:00</span>
+        </div>
+    </section>
+
+    <!-- Controles -->
+    <section class="controls-section">
+        <div class="controls-row">
+            <button class="control-btn small" id="prev-btn" title="Anterior (P)"><img src="assets/btn-prev.png" alt="Anterior" draggable="false"></button>
+            <button class="control-btn small" id="rewind-btn" title="Retroceder 5s (←)"><img src="assets/btn-rewind.png" alt="Retroceder" draggable="false"></button>
+            <button class="control-btn main-play-btn" id="play-pause-btn" type="button" aria-label="Reproducir" aria-pressed="false" title="Reproducir / Pausa (Espacio)"><img src="assets/btn-play.png" alt="" id="play-icon" draggable="false"></button>
+            <button class="control-btn small" id="fast-forward-btn" title="Avanzar 5s (→)"><img src="assets/btn-forward.png" alt="Avanzar" draggable="false"></button>
+            <button class="control-btn small" id="next-btn" title="Siguiente (N)"><img src="assets/btn-next.png" alt="Siguiente" draggable="false"></button>
+        </div>
+
+        <!-- Volumen vertical -->
+        <div class="volume-section" id="volume-section" title="Volumen (↑ ↓, M = silencio)">
+            <div class="vol-track" id="vol-track" role="slider" tabindex="0" aria-label="Volumen" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="100" aria-valuenow="80" aria-valuetext="80%">
+                <img class="vol-track-img" src="assets/volume-track.png" alt="" draggable="false">
+                <img class="vol-knob" id="vol-knob" src="assets/volume-knob.png" alt="" draggable="false">
+            </div>
+        </div>
+    </section>
+
+    <!-- Funciones extra -->
+    <section class="extras-row">
+        <button class="mini-btn" id="shuffle-btn" type="button" aria-pressed="false" title="Aleatorio (S)">🔀 SHUFFLE</button>
+        <button class="mini-btn" id="repeat-btn" type="button" aria-pressed="false" title="Repetir (R)">🔁 REPEAT</button>
+        <button class="mini-btn" id="list-btn" type="button" aria-expanded="false" aria-controls="playlist-panel" title="Lista (L)">☰ LISTA</button>
+        <button class="mini-btn accent" id="load-btn" title="Cargar canciones de tu equipo">＋ CANCIONES</button>
+        <button class="mini-btn accent" id="folder-btn" title="Cargar una carpeta de música">📁 CARPETA</button>
+    </section>
+
+    <!-- Lista de reproducción -->
+    <aside class="playlist-panel" id="playlist-panel" aria-hidden="true">
+        <div class="pl-head">
+            <span>PLAYLIST</span>
+            <button class="pl-close" id="pl-close" aria-label="Cerrar">✕</button>
+        </div>
+        <ul id="playlist-list"></ul>
+    </aside>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <input type="file" id="file-input" accept="audio/*" multiple hidden>
+    <input type="file" id="folder-input" accept="audio/*,.mp3,.wav,.ogg,.m4a,.flac,.aac,.opus" multiple webkitdirectory directory hidden>
+    <audio id="audio-element" preload="metadata"></audio>
+</div>
+
+<script src="js/player.js"></script>
+</body>
+</html>
